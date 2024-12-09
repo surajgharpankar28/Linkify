@@ -15,14 +15,14 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "Linkify",
-  description: "",
+  description: "Your favorite collective link sharing platform",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#274F1B]`}
       >
         <Header />
         {children}
