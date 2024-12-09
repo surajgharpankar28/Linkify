@@ -39,6 +39,22 @@ export default async function Page({ params }) {
   if (!item) {
     return notFound();
   }
+
+  // Function to check if the profile pic URL is valid
+  const isValidProfilePicUrl = (url) => {
+    const allowedDomains = [
+      "media.licdn.com",
+      "scontent.fnag4-2.fna.fbcdn.net",
+    ];
+    const imageUrl = new URL(url);
+    return allowedDomains.includes(imageUrl.hostname);
+  };
+
+  // If profile pic URL is invalid, use a fallback default image
+  const profilePicUrl = isValidProfilePicUrl(item.profilePic)
+    ? item.profilePic
+    : "/defaultProfilePic.png";
+
   return (
     <div className="flex min-h-screen bg-purple-400 justify-center items-center py-10">
       <div className="flex flex-col justify-center items-center bg-white p-6 rounded-lg shadow-lg w-80 text-center">
@@ -46,7 +62,7 @@ export default async function Page({ params }) {
         <div className="photo flex flex-col justify-center items-center mb-6">
           <Image
             className="rounded-full"
-            src={item.profilePic}
+            src={profilePicUrl}
             height={90}
             width={90}
             alt="profilePic"
@@ -65,7 +81,7 @@ export default async function Page({ params }) {
               href={link.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-purple-600 justify-center  text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition-all duration-300 flex items-center gap-3"
+              className="bg-purple-600 justify-center text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition-all duration-300 flex items-center gap-3"
             >
               {getIconForLink(link.link)} {/* Display Icon */}
               {link.linkName.charAt(0).toUpperCase() + link.linkName.slice(1)}
