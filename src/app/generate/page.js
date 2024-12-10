@@ -87,10 +87,11 @@ const Generate = () => {
     }
 
     if (filteredLinks.length === 0) {
-      toast.info("Please add at least one valid link name and link.", {
+      toast.info("You must add at least one link.", {
         position: "bottom-left",
         theme: "colored",
       });
+
       return;
     }
 
