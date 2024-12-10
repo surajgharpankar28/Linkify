@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import { FaTimes } from "react-icons/fa"; // Import icons from react-icons
 
 const Generate = () => {
   const searchParams = useSearchParams();
@@ -43,6 +44,10 @@ const Generate = () => {
     setLinks(links.concat([{ linkName: "", link: "" }]));
   };
 
+  const deleteLink = (index) => {
+    setLinks((initialLinks) => initialLinks.filter((_, i) => i !== index));
+  };
+
   const validateLinks = () => {
     let isValid = true;
 
@@ -62,14 +67,6 @@ const Generate = () => {
   const submitLinks = async () => {
     if (!validateLinks()) {
       return; // Stop if any URL is invalid
-    }
-
-    if (!isValidURL(profilePic.trim())) {
-      toast.error("Please enter a valid profile picture URL.", {
-        position: "bottom-left",
-        theme: "colored",
-      });
-      return;
     }
 
     const myHeaders = new Headers();
@@ -97,8 +94,16 @@ const Generate = () => {
       return;
     }
 
-    if (profilePic.length === 0) {
-      toast.info("Please add profile picture link.", {
+    // if (profilePic.length === 0) {
+    //   toast.info("Please add profile picture link.", {
+    //     position: "bottom-left",
+    //     theme: "colored",
+    //   });
+    //   return;
+    // }
+
+    if (!isValidURL(profilePic.trim())) {
+      toast.error("Please enter a valid profile picture URL.", {
         position: "bottom-left",
         theme: "colored",
       });
@@ -154,14 +159,17 @@ const Generate = () => {
   };
 
   return (
-    <div className="bg-[#235ABE] min-h-screen grid grid-cols-2 border">
-      <div className="bg-white flex justify-center items-center flex-col px-6 py-12">
+    <div className="bg-[#235ABE] min-h-screen flex flex-col lg:flex-row border">
+      {/* First Div - Form Container */}
+      <div className="bg-white flex flex-col   justify-start items-center px-6 py-28 w-full lg:w-1/2">
         <ToastContainer />
-        <h1 className="text-4xl font-bold text-[#235ABE] mb-8">
+
+        {/* Heading with sticky positioning */}
+        <h1 className="text-4xl font-bold text-[#235ABE] mb-8  bg-white py-4 z-10">
           Create your Linkify
         </h1>
 
-        <div className="flex flex-col gap-10 w-full max-w-lg">
+        <div className="flex flex-col gap-10 w-full max-w-lg flex-grow">
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
               Step 1. Claim your Handle
@@ -182,30 +190,44 @@ const Generate = () => {
             </h2>
             <div className="space-y-4">
               {links?.map((item, index) => (
-                <div key={index} className="flex gap-2">
+                <div key={index} className="flex gap-4 items-center">
+                  {/* Link Name Input */}
                   <input
                     onChange={(e) =>
                       handleChange(index, "linkName", e.target.value)
                     }
                     value={item.linkName}
-                    className="flex-1 p-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
+                    className="w-1/4 p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
                     type="text"
-                    placeholder="Enter link name"
+                    placeholder="Link name"
                   />
-                  <div className="flex-1">
-                    <input
-                      onChange={(e) =>
-                        handleChange(index, "link", e.target.value)
-                      }
-                      value={item.link}
-                      className="flex-1 p-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
-                      type="text"
-                      placeholder="Enter link"
-                    />
-                  </div>
+
+                  {/* Link URL Input */}
+                  <input
+                    onChange={(e) =>
+                      handleChange(index, "link", e.target.value)
+                    }
+                    value={item.link}
+                    className="w-3/4 p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
+                    type="text"
+                    placeholder="Enter link URL"
+                  />
+
+                  {/* Delete Button */}
+                  {links.length > 1 ? (
+                    <button
+                      onClick={() => deleteLink(index)}
+                      className="p-2 bg-red-500 text-white rounded-lg shadow-md hover:text-black transition"
+                    >
+                      <FaTimes className=" cursor-pointer" />
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               ))}
             </div>
+
             <div className="flex justify-center mt-4">
               <button
                 className="px-6 py-3 text-blue-700 underline font-semibold rounded-lg cursor-pointer hover:text-[#1a4196] transition"
@@ -218,21 +240,21 @@ const Generate = () => {
 
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Step 3. Add Linkify Profile Link
+              Step 3. Add Profile Photo Link & Bio{" "}
             </h2>
             <input
               onChange={(e) => setProfilePic(e.target.value)}
               value={profilePic}
               className="w-full p-4 mb-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
               type="text"
-              placeholder="Your Linkify Profile Link"
+              placeholder="Profile Photo Link"
               required
             />
             <textarea
               onChange={(e) => setDescription(e.target.value)}
               value={description}
               className="w-full p-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
-              placeholder="Enter Description"
+              placeholder="Enter Bio"
               rows="2"
               required
             />
@@ -249,7 +271,8 @@ const Generate = () => {
         </div>
       </div>
 
-      <div className="w-full flex justify-center h-screen">
+      {/* Second Div - Image Container */}
+      <div className="w-full lg:w-1/2 flex justify-center h-screen mt-6 lg:mt-0">
         <img
           className="h-full object-cover"
           src="/generate.png"
