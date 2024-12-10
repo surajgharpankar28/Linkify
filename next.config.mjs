@@ -2,11 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["media.licdn.com", "scontent.fnag4-2.fna.fbcdn.net"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "media.licdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "scontent.fnag4-2.fna.fbcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "*", // This will allow any other domains as well, if required
       },
     ],
   },
