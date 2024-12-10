@@ -24,7 +24,11 @@ export default async function Page({ params }) {
       return <FaInstagram className="text-white" />;
     } else if (link.includes("facebook.com")) {
       return <FaFacebook className="text-white" />;
-    } else if (link.includes(".x.com") || link.includes("twitter.com")) {
+    } else if (
+      link.includes("/x.com") ||
+      link.includes(".x.com") ||
+      link.includes("twitter.com")
+    ) {
       return <FaTwitter className="text-white" />;
     } else if (link.includes("spotify.com")) {
       return <FaSpotify className="text-white" />;
