@@ -240,21 +240,21 @@ const Generate = () => {
 
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Step 3. Add Linkify Profile Link
+              Step 3. Add Profile Photo Link & Bio{" "}
             </h2>
             <input
               onChange={(e) => setProfilePic(e.target.value)}
               value={profilePic}
               className="w-full p-4 mb-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
               type="text"
-              placeholder="Your Linkify Profile Link"
+              placeholder="Profile Photo Link"
               required
             />
             <textarea
               onChange={(e) => setDescription(e.target.value)}
               value={description}
               className="w-full p-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#235ABE] rounded-lg shadow-md"
-              placeholder="Enter Description"
+              placeholder="Enter Bio"
               rows="2"
               required
             />
