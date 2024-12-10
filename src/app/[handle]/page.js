@@ -1,5 +1,6 @@
 import clientPromise from "@/lib/mongodb";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   FaGithub,
@@ -114,6 +115,16 @@ export default async function Page({ params }) {
               {link.linkName.charAt(0).toUpperCase() + link.linkName.slice(1)}
             </a>
           ))}
+        </div>
+        <div className="mt-4 flex flex-col">
+          <span className="text-sm">Want to make your own Linkify?</span>
+          <Link
+            className="text-sm text-blue-600 hover:underline "
+            href="/"
+            target="_blank"
+          >
+            Click here
+          </Link>
         </div>
       </div>
     </div>
