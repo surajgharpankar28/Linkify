@@ -2,50 +2,77 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const [text, setText] = useState("");
   const router = useRouter();
+
   const createLinkify = () => {
+    if (text.trim() === "")
+      return toast.error("Please enter a handle!", {
+        position: "bottom-left",
+      });
     router.push(`/generate?handle=${text}`);
   };
+
   return (
     <main>
-      <section className="bg-[#274F1B] min-h-[100vh] grid grid-cols-2">
-        <div className="flex justify-center flex-col mx-[10vw] gap-2">
-          <p className="text-6xl text-yellow-500 font-bold">All of you, </p>{" "}
-          <p className="text-6xl text-yellow-500 font-bold">captured in</p>
-          <p className="text-6xl text-yellow-500 font-bold">
-            {" "}
-            one simple link.
+      {/* Hero Section */}
+      <section className="bg-[#F7F8FA] min-h-screen grid grid-cols-1 lg:grid-cols-2 py-24">
+        {/* Text Content */}
+        <div className="flex justify-center flex-col px-8 lg:pl-[10vw] lg:pr-4 py-12 gap-4">
+          <ToastContainer />
+          <h1 className="text-5xl lg:text-6xl text-[#4A4E69] font-extrabold leading-tight">
+            All of you, captured in{" "}
+            <span className="text-[#9A8C98] animate-color-change">
+              one simple link.
+            </span>{" "}
+          </h1>
+          <p className="text-[#6B705C] text-lg lg:text-xl pt-4 leading-relaxed">
+            Create your personalized Linkify page to share everything you
+            create, curate, and sell with one link. Perfect for showcasing your
+            content from Instagram, TikTok, Twitter, YouTube, and more, Linkify
+            brings all your social media profiles together in one place.
           </p>
-          <p className="text-yellow-300 text-xl pt-4">
-            Join 50M+ people using Linktree for their link in bio. One link to
-            help you share everything you create, curate and sell from your
-            Instagram, TikTok, Twitter, YouTube and other social media profiles.
-          </p>
-          <div className="mt-4">
+
+          {/* Input and Button */}
+          <div className="mt-6 flex flex-wrap gap-4">
             <input
-              className="p-2 rounded-md focus:outline-[#274F1B]"
+              className="w-full lg:w-auto p-3 rounded-md focus:outline-[#9A8C98] text-gray-800 shadow-md placeholder-gray-500 border border-gray-300"
               type="text"
-              placeholder="enter your handle"
+              placeholder="Enter your handle"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-
             <button
-              className="bg-green-500 p-2 ml-2 rounded-lg font-semibold rounded-m"
-              onClick={() => createLinkify()}
+              className="bg-[#9A8C98] text-white p-3 rounded-md font-semibold shadow-lg hover:bg-[#6B705C] transition-all duration-300"
+              onClick={createLinkify}
             >
               Claim your Linkify
             </button>
           </div>
         </div>
-        <div className="flex items-center justify-center flex-col mx-[10vw]">
-          <Image src="/showcase.jpg" height={900} width={900} alt="showcase" />
+
+        {/* Showcase Image */}
+        <div className="flex items-center justify-center px-8 py-12 lg:pr-[15vw]">
+          <Image
+            src="/showcaseBG.png"
+            height={900}
+            width={900}
+            alt="Showcase"
+            className="rounded-lg"
+          />
         </div>
       </section>
-      <section className="bg-red-600 min-h-[100vh]"></section>
+
+      {/* Placeholder for Next Section */}
+      <section className="bg-[#FFE8D6] min-h-screen flex items-center justify-center">
+        <h2 className="text-4xl text-[#4A4E69] font-bold flex items-center justify-center">
+          More exciting features coming soon!
+        </h2>
+      </section>
     </main>
   );
 }

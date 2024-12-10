@@ -6,25 +6,28 @@ import React from "react";
 const Header = () => {
   const pathName = usePathname();
   const showHeader = ["/", "/generate"].includes(pathName);
+
   return (
     <>
       {showHeader && (
-        <div className="flex items-center border border-black fixed justify-between top-10 bg-white p-2 w-[80vw] right-[10vw] rounded-full px-6">
+        <header className="flex items-center justify-between fixed top-6 w-[80vw] right-[10vw] bg-[#F7F8FA] p-4 rounded-full shadow-lg border border-gray-200 z-50">
+          {/* Logo */}
           <div>
-            <h1 className="flex items-center text-3xl poppins-semibold-italic">
-              {" "}
+            <h1 className="text-2xl lg:text-3xl font-bold text-[#4A4E69]">
               <Link href="/">Linkify</Link>
             </h1>
           </div>
+
+          {/* Buttons */}
           <div className="flex gap-4">
-            <button className="border bg-gray-300 font-semibold p-2 rounded-lg">
+            <button className="px-4 py-2 text-sm lg:text-base bg-[#D3D3D3] text-[#4A4E69] font-semibold rounded-lg hover:bg-gray-300 transition-all duration-200">
               Log In
             </button>
-            <button className="border bg-gray-800 font-semibold text-white p-2 rounded-lg">
-              Sign up free
+            <button className="px-4 py-2 text-sm lg:text-base bg-[#9A8C98] text-white font-semibold rounded-lg hover:bg-[#6B705C] transition-all duration-200">
+              Sign Up Free
             </button>
           </div>
-        </div>
+        </header>
       )}
     </>
   );
