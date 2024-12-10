@@ -28,7 +28,7 @@ export default function ProfilePic({ profilePicUrl }) {
         className={`rounded-full h-24 w-24 object-cover transition-opacity duration-300 ${
           isLoading ? "opacity-0" : "opacity-100"
         }`} // Hide image during loading, use 'opacity-0'
-        src={imageSrc}
+        src={imageSrc.trimEnd()}
         height={100}
         width={100}
         alt="profilePic"
