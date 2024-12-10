@@ -57,6 +57,15 @@ const Generate = () => {
       return; // Stop if any URL is invalid
     }
 
+    // Validate the profile picture URL
+    if (!isValidURL(profilePic.trim())) {
+      toast.error("Please enter a valid profile picture URL.", {
+        position: "bottom-left",
+        theme: "colored",
+      });
+      return; // Stop if the profile picture URL is invalid
+    }
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -109,10 +118,27 @@ const Generate = () => {
     const req = await fetch("http://localhost:3000/api/add", requestOptions);
     const result = await req.json();
     if (result.success) {
-      toast.success(result.message, {
-        position: "bottom-left",
-        theme: "colored",
-      });
+      // Show success toast with a clickable redirect link
+      toast.success(
+        <div>
+          {result.message} 🎉{" "}
+          <a
+            href={`/${result.result.handle}`} // Redirect to the generated page
+            className="text-blue-500 underline hover:text-blue-700"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View your Linkify
+          </a>
+        </div>,
+        {
+          position: "bottom-left",
+
+          autoClose: 5000, // Adjust auto-close time as needed
+        }
+      );
+
+      // Reset form fields
       setLinks([{ linkName: "", link: "" }]);
       setHandle("");
       setProfilePic("");
