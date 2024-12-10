@@ -96,18 +96,27 @@ export default async function Page({ params }) {
 
           {/* Links Section */}
           <div className="links w-full flex flex-col gap-4 justify-center align-middle">
-            {item.links.map((link, index) => (
-              <a
-                key={index}
-                href={link.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-purple-600 justify-center text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition-all duration-300 flex items-center gap-3"
-              >
-                {getIconForLink(link.link)} {/* Display Icon */}
-                {link.linkName.charAt(0).toUpperCase() + link.linkName.slice(1)}
-              </a>
-            ))}
+            {item.links.map((link, index) => {
+              const normalizedLink =
+                link.link.startsWith("http://") ||
+                link.link.startsWith("https://")
+                  ? link.link
+                  : `https://${link.link}`; // Ensure the link has http/https protocol
+
+              return (
+                <a
+                  key={index}
+                  href={normalizedLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-purple-600 justify-center text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition-all duration-300 flex items-center gap-3"
+                >
+                  {getIconForLink(normalizedLink)} {/* Display Icon */}
+                  {link.linkName.charAt(0).toUpperCase() +
+                    link.linkName.slice(1)}
+                </a>
+              );
+            })}
           </div>
           <div className="mt-4 flex flex-col">
             <span className="text-sm">Want to make your own Linkify?</span>
