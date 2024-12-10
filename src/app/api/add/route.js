@@ -6,16 +6,13 @@ export async function POST(request) {
   const db = client.db("linkify");
   const collection = db.collection("links");
 
-  console.log(body);
-
-  //if handle is already claimed, you cannot create the Linkify
+  // Check if the handle is already claimed
   const doc = await collection.findOne({ handle: body.handle });
-
   if (doc) {
     return Response.json({
       success: false,
       error: true,
-      message: "Handle is already claimed, Please enter different handle",
+      message: "Handle is already claimed, Please enter a different handle",
       result: null,
     });
   }
@@ -26,6 +23,9 @@ export async function POST(request) {
     success: true,
     error: false,
     message: "Your Linkify is created, Enjoy!",
-    result: result,
+    result: {
+      id: result.insertedId,
+      handle: body.handle, // Include the handle for redirect
+    },
   });
 }

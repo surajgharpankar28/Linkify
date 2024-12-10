@@ -1,5 +1,6 @@
 import clientPromise from "@/lib/mongodb";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   FaGithub,
@@ -9,6 +10,9 @@ import {
   FaTwitter,
   FaFacebook,
   FaLink,
+  FaSpotify,
+  FaSoundcloud,
+  FaYoutube,
 } from "react-icons/fa"; // Import icons from react-icons
 
 export default async function Page({ params }) {
@@ -21,8 +25,18 @@ export default async function Page({ params }) {
       return <FaInstagram className="text-white" />;
     } else if (link.includes("facebook.com")) {
       return <FaFacebook className="text-white" />;
-    } else if (link.includes("x.com") || link.includes("twitter.com")) {
+    } else if (
+      link.includes("/x.com") ||
+      link.includes(".x.com") ||
+      link.includes("twitter.com")
+    ) {
       return <FaTwitter className="text-white" />;
+    } else if (link.includes("spotify.com")) {
+      return <FaSpotify className="text-white" />;
+    } else if (link.includes("youtube.com") || link.includes("youtu.be")) {
+      return <FaYoutube className="text-white" />;
+    } else if (link.includes("soundcloud.com")) {
+      return <FaSoundcloud className="text-white" />;
     } else if (link.includes("http") || link.includes("www")) {
       return <FaGlobe className="text-white" />;
     }
@@ -30,27 +44,36 @@ export default async function Page({ params }) {
     return <FaLink className="text-white" />;
   };
 
-  const handle = (await params).handle;
+  const handle = (await params).handle.toLowerCase(); // Convert handle to lowercase
   const client = await clientPromise;
   const db = client.db("linkify");
   const collection = db.collection("links");
 
-  const item = await collection.findOne({ handle });
+  const item = await collection.findOne({
+    handle: { $regex: `^${handle}$`, $options: "i" },
+  });
   if (!item) {
     return notFound();
   }
 
   // Function to check if the profile pic URL is valid
   const isValidProfilePicUrl = (url) => {
-    const allowedDomains = [
-      "media.licdn.com",
-      "scontent.fnag4-2.fna.fbcdn.net",
-    ];
-    const imageUrl = new URL(url);
-    return allowedDomains.includes(imageUrl.hostname);
+    try {
+      const imageUrl = new URL(url); // Parse the URL to validate its structure
+
+      // Check if the URL uses HTTP or HTTPS
+      const isHttpOrHttps =
+        imageUrl.protocol === "http:" || imageUrl.protocol === "https:";
+
+      // Allow URLs with domains like LinkedIn's media server or any valid image service
+      return isHttpOrHttps;
+    } catch (error) {
+      // If URL parsing fails, it's invalid
+      return false;
+    }
   };
 
-  // If profile pic URL is invalid, use a fallback default image
+  // Use fallback default image if the profile pic URL is invalid
   const profilePicUrl = isValidProfilePicUrl(item.profilePic)
     ? item.profilePic
     : "/defaultProfilePic.png";
@@ -61,16 +84,21 @@ export default async function Page({ params }) {
         {/* Profile Picture and Handle */}
         <div className="photo flex flex-col justify-center items-center mb-6">
           <Image
-            className="rounded-full"
+            className="rounded-lg h-20 w-auto"
             src={profilePicUrl}
-            height={90}
-            width={90}
+            height={100}
+            width={100}
             alt="profilePic"
           />
           <span className="font-bold text-2xl text-purple-700 mt-4">
             @{item.handle}
           </span>
-          <span className="text-md">{item.description}</span>
+          <span
+            className="text-md break-words overflow-hidden text-ellipsis whitespace-normal"
+            style={{ wordBreak: "break-word", maxWidth: "100%" }}
+          >
+            {item.description}
+          </span>
         </div>
 
         {/* Links Section */}
@@ -87,6 +115,16 @@ export default async function Page({ params }) {
               {link.linkName.charAt(0).toUpperCase() + link.linkName.slice(1)}
             </a>
           ))}
+        </div>
+        <div className="mt-4 flex flex-col">
+          <span className="text-sm">Want to make your own Linkify?</span>
+          <Link
+            className="text-sm text-blue-600 hover:underline "
+            href="/"
+            target="_blank"
+          >
+            Click here
+          </Link>
         </div>
       </div>
     </div>
