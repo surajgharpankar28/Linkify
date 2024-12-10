@@ -8,9 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npm install --legacy-peer-deps"
-      
-    }
-    
   },
   "dependencies": {
     "lucide-react": "^0.465.0",
