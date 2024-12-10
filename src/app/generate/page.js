@@ -119,7 +119,10 @@ const Generate = () => {
       redirect: "follow",
     };
 
-    const req = await fetch("http://localhost:3000/api/add", requestOptions);
+    const req = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/add`,
+      requestOptions
+    );
     const result = await req.json();
     if (result.success) {
       toast.success(
