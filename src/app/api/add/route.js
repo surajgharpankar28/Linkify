@@ -6,7 +6,7 @@ export async function POST(request) {
   const db = client.db("linkify");
   const collection = db.collection("links");
 
-  console.log(body);
+  // console.log(body);
 
   //if handle is already claimed, you cannot create the Linkify
   const doc = await collection.findOne({ handle: body.handle });
