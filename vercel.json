@@ -7,9 +7,6 @@
     ],
     "env": {
       "npm_config_legacy_peer_deps": "true"
-    },
-    "scripts": {
-        "install": "npm install --legacy-peer-deps"
-  }
+    }
   }
   
