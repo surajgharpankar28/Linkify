@@ -9,7 +9,7 @@
       "npm_config_legacy_peer_deps": "true"
     },
     "scripts": {
-        "install": "./install.sh"
-      }
+        "install": "npm install --legacy-peer-deps"
+  }
   }
   
