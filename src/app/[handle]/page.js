@@ -78,7 +78,7 @@ export default async function Page({ params }) {
   return (
     <>
       <div className="flex min-h-screen bg-pastel-blue justify-center items-center py-10">
-        <div className="flex flex-col justify-center items-center bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+        <div className="flex flex-col justify-center items-center bg-white p-6 rounded-lg shadow-lg w-96 text-center">
           {/* Profile Picture and Handle */}
           <div className="photo flex flex-col justify-center items-center mb-6">
             <ProfilePic profilePicUrl={profilePicUrl} />{" "}
